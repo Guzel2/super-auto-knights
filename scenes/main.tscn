@@ -1,8 +1,18 @@
-[gd_scene load_steps=2 format=3 uid="uid://cg1031u8arflo"]
+[gd_scene load_steps=3 format=3 uid="uid://cg1031u8arflo"]
 
 [ext_resource type="Script" path="res://scenes/gameplay.gd" id="1_qpuvj"]
+[ext_resource type="Script" path="res://scenes/unit_holder.gd" id="2_2ymb8"]
 
 [node name="main" type="Node2D"]
 
-[node name="gameplay" type="Node2D" parent="."]
+[node name="gameplay" type="Node2D" parent="." node_paths=PackedStringArray("player_0_units_holder", "player_1_units_holder")]
 script = ExtResource("1_qpuvj")
+player_0_units_holder = NodePath("player_0_units")
+player_1_units_holder = NodePath("player_1_units")
+
+[node name="player_0_units" type="Node2D" parent="gameplay"]
+script = ExtResource("2_2ymb8")
+
+[node name="player_1_units" type="Node2D" parent="gameplay"]
+script = ExtResource("2_2ymb8")
+player_number = 1

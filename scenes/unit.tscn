@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cojtqsdvde7xx"]
+
+[ext_resource type="Script" path="res://scenes/unit.gd" id="1_vcvdv"]
+
+[node name="unit" type="Node2D"]
+script = ExtResource("1_vcvdv")
