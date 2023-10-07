@@ -5,7 +5,11 @@ extends Node2D
 
 var battle_winner = -1
 
+var gaming_stuff: GDScript
+
 func _ready() -> void:
+	gaming_stuff = load('res://scenes/unit_enums.gd')
+	var enums = gaming_stuff.new()
 	
 	var wins = {}
 	
@@ -15,22 +19,66 @@ func _ready() -> void:
 	
 	for p0_unit0 in range(5):
 		for p0_unit1 in range(5):
-			for p1_unit0 in range(5):
-				for p1_unit1 in range(5):
-					player_0_units_holder.set_classes([p0_unit0, p0_unit1])
-					player_1_units_holder.set_classes([p1_unit0, p1_unit1])
-					
-					battle_winner = -1
-					while battle_winner == -1:
-						perform_one_turn()
-					
-					var player_code
-					if battle_winner == 0:
-						player_code = str(p0_unit0) + str(p0_unit1)
-					else:
-						player_code = str(p1_unit0) + str(p1_unit1)
-					wins[player_code] += 1
-	print(wins)
+			for p0_unit2 in range(5):
+				for p1_unit0 in range(5):
+					for p1_unit1 in range(5):
+						for p1_unit2 in range(5):
+							player_0_units_holder.set_classes([p0_unit0, p0_unit1, p0_unit2])
+							player_1_units_holder.set_classes([p1_unit0, p1_unit1, p1_unit2])
+							
+							battle_winner = -1
+							while battle_winner == -1:
+								perform_one_turn()
+							
+							var player_code
+							if battle_winner == 0:
+								player_code = str(p0_unit0) + str(p0_unit1) + str(p0_unit2)
+							else:
+								player_code = str(p1_unit0) + str(p1_unit1) + str(p1_unit2)
+							
+							if player_code in wins.keys():
+								wins[player_code] += 1
+							else:
+								wins[player_code] = 1
+	
+	var keys = wins.keys()
+	keys.sort_custom(
+		func (a, b):
+			return my_cool_sort_function(a, b, wins))
+	
+	
+	var unit_wins = [0, 0, 0, 0, 0]
+	
+	var unit_wins_with_same_class = [0, 0, 0, 0, 0]
+	
+	for key in keys:
+		for x in range(5):
+			var x_str = str(x)
+			
+			var class_count = key.count(x_str)
+			
+			if class_count:
+				unit_wins[x] += wins[key]
+				if class_count > 1:
+					unit_wins_with_same_class[x] += wins[key]
+	
+	print('unit wins: ', unit_wins)
+	print('same class wins: ', unit_wins_with_same_class)
+	
+	var unique_wins = 0
+	for unit in unit_wins:
+		unique_wins += unit
+	print('unique unit wins: ', unique_wins, ' wins / 5: ', unique_wins/5)
+	
+	var total_wins = 0
+	for key in keys:
+		total_wins += wins[key]
+	print('total absolute wins: ', total_wins)
+
+func my_cool_sort_function(a, b, wins):
+	if wins[a] > wins[b]:
+		return true
+	return false
 
 func set_winner(loser):
 	battle_winner = 1 - loser

@@ -32,14 +32,14 @@ var unit_stats = {
 			stats.attack: 4,
 			stats.defence: 1,
 			stats.max_hp: 8,
-			stats.attack_time: 1.8,
+			stats.attack_time: 1.7,
 		},
 	classes.berserk: 
 		{
 			stats.attack: 5,
 			stats.defence: 1,
 			stats.max_hp: 10,
-			stats.attack_time: 2.5,
+			stats.attack_time: 2.6,
 		},
 	classes.archer: 
 		{

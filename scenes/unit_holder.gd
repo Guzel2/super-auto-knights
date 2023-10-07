@@ -19,7 +19,6 @@ func set_classes(classes: Array):
 		new_unit.set_class(new_class)
 		new_unit.connect('died', callable)
 		units.append(new_unit)
-		
 	
 	active_unit = units[0]
 
