@@ -27,8 +27,7 @@ func _ready() -> void:
 							while battle_winner == -1:
 								perform_one_turn()
 								turn_count += 1
-								if turn_count > 200:
-									print('reached turn limit')
+								if turn_count > 250:
 									break
 							
 							var player_code

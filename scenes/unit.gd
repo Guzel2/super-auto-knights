@@ -80,6 +80,8 @@ var unit_holder: Node2D
 var use_extra_effects = true
 
 func switch_out():
+	clear_stat_changes()
+	
 	if !use_extra_effects:
 		return
 	if unit_effects[unit_class].has_method('switch_out'):
@@ -96,6 +98,16 @@ func hurt():
 		return
 	if unit_effects[unit_class].has_method('hurt'):
 		unit_effects[unit_class].hurt(self)
+	
+	for unit in unit_holder.units:
+		if unit != self:
+			unit.ally_hurt(self)
+
+func ally_hurt(ally):
+	if !use_extra_effects:
+		return
+	if unit_effects[unit_class].has_method('ally_hurt'):
+		unit_effects[unit_class].ally_hurt(self, ally)
 
 func before_attack():
 	if !use_extra_effects:
@@ -108,6 +120,12 @@ func after_attack():
 		return
 	if unit_effects[unit_class].has_method('after_attack'):
 		unit_effects[unit_class].after_attack(self)
+
+func koed_enemy():
+	if !use_extra_effects:
+		return
+	if unit_effects[unit_class].has_method('koed_enemy'):
+		unit_effects[unit_class].koed_enemy(self)
 
 func set_class(new_class):
 	unit_class = new_class
@@ -126,11 +144,19 @@ func set_stats():
 	
 	is_alive = true
 
+func clear_stat_changes():
+	temp_attack = 0
+	temp_defence = 0
+	remaining_time = attack_time
+
 func perform_attack(target):
 	before_attack()
 	
 	var damage = (attack + temp_attack) - (target.defence + target.temp_defence)
 	damage_dealt = target.take_damage(damage)
+	if !target.is_alive:
+		koed_enemy()
+	
 	remaining_time = attack_time
 	
 	after_attack()
