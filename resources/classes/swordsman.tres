@@ -1,0 +1,6 @@
+[gd_resource type="Resource" script_class="swordsman" load_steps=2 format=3 uid="uid://b011gdub83jht"]
+
+[ext_resource type="Script" path="res://resources/classes/swordsman.gd" id="1_38bub"]
+
+[resource]
+script = ExtResource("1_38bub")

@@ -1,0 +1,6 @@
+[gd_resource type="Resource" script_class="mage" load_steps=2 format=3 uid="uid://c8l2cnkw4us5"]
+
+[ext_resource type="Script" path="res://resources/classes/mage.gd" id="1_8tg3t"]
+
+[resource]
+script = ExtResource("1_8tg3t")

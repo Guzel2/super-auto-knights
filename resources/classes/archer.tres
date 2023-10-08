@@ -1,0 +1,6 @@
+[gd_resource type="Resource" script_class="archer" load_steps=2 format=3 uid="uid://b2anemnyekwqy"]
+
+[ext_resource type="Script" path="res://resources/classes/archer.gd" id="1_73yav"]
+
+[resource]
+script = ExtResource("1_73yav")

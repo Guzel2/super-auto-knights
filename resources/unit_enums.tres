@@ -1,0 +1,6 @@
+[gd_resource type="Resource" script_class="unit_enums" load_steps=2 format=3 uid="uid://cgax4dk6kkr76"]
+
+[ext_resource type="Script" path="res://resources/unit_enums.gd" id="1_ulh7l"]
+
+[resource]
+script = ExtResource("1_ulh7l")

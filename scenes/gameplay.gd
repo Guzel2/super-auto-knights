@@ -5,30 +5,31 @@ extends Node2D
 
 var battle_winner = -1
 
-var gaming_stuff: GDScript
-
 func _ready() -> void:
-	gaming_stuff = load('res://scenes/unit_enums.gd')
-	var enums = gaming_stuff.new()
-	
 	var wins = {}
 	
 	var callable = Callable(self, 'set_winner') 
 	player_0_units_holder.connect('player_lost', callable)
 	player_1_units_holder.connect('player_lost', callable)
 	
-	for p0_unit0 in range(5):
-		for p0_unit1 in range(5):
-			for p0_unit2 in range(5):
-				for p1_unit0 in range(5):
-					for p1_unit1 in range(5):
-						for p1_unit2 in range(5):
+	for p0_unit0 in range(unit_enums.classes.size()):
+		for p0_unit1 in range(unit_enums.classes.size()):
+			for p0_unit2 in range(unit_enums.classes.size()):
+				for p1_unit0 in range(unit_enums.classes.size()):
+					for p1_unit1 in range(unit_enums.classes.size()):
+						for p1_unit2 in range(unit_enums.classes.size()):
 							player_0_units_holder.set_classes([p0_unit0, p0_unit1, p0_unit2])
 							player_1_units_holder.set_classes([p1_unit0, p1_unit1, p1_unit2])
+							
+							var turn_count = 0
 							
 							battle_winner = -1
 							while battle_winner == -1:
 								perform_one_turn()
+								turn_count += 1
+								if turn_count > 200:
+									print('reached turn limit')
+									break
 							
 							var player_code
 							if battle_winner == 0:
@@ -69,11 +70,6 @@ func _ready() -> void:
 	for unit in unit_wins:
 		unique_wins += unit
 	print('unique unit wins: ', unique_wins, ' wins / 5: ', unique_wins/5)
-	
-	var total_wins = 0
-	for key in keys:
-		total_wins += wins[key]
-	print('total absolute wins: ', total_wins)
 
 func my_cool_sort_function(a, b, wins):
 	if wins[a] > wins[b]:

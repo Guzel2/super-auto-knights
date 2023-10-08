@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://cg1031u8arflo"]
+[gd_scene load_steps=4 format=3 uid="uid://cg1031u8arflo"]
 
 [ext_resource type="Script" path="res://scenes/gameplay.gd" id="1_qpuvj"]
 [ext_resource type="Script" path="res://scenes/unit_holder.gd" id="2_2ymb8"]
+[ext_resource type="Resource" uid="uid://cgax4dk6kkr76" path="res://resources/unit_enums.tres" id="2_lj6ii"]
 
 [node name="main" type="Node2D"]
 
@@ -9,12 +10,11 @@
 script = ExtResource("1_qpuvj")
 player_0_units_holder = NodePath("player_0_units")
 player_1_units_holder = NodePath("player_1_units")
+test = ExtResource("2_lj6ii")
 
-[node name="player_0_units" type="Node2D" parent="gameplay" node_paths=PackedStringArray("enemy")]
+[node name="player_0_units" type="Node2D" parent="gameplay"]
 script = ExtResource("2_2ymb8")
-enemy = NodePath("../player_1_units")
 
-[node name="player_1_units" type="Node2D" parent="gameplay" node_paths=PackedStringArray("enemy")]
+[node name="player_1_units" type="Node2D" parent="gameplay"]
 script = ExtResource("2_2ymb8")
 player_number = 1
-enemy = NodePath("../player_0_units")

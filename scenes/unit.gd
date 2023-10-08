@@ -1,6 +1,7 @@
 extends Node2D
 
 @export var unit_class: classes
+@export var enums: unit_enums
 
 signal died(unit)
 
@@ -69,16 +70,54 @@ var temp_defence = 0
 var remaining_hp = max_hp
 var remaining_time = attack_time
 var is_alive = true
+var battle_pos = 0
+
+@export var unit_effects: Array
+
+var damage_dealt = 0
+var unit_holder: Node2D
+
+var use_extra_effects = true
+
+func switch_out():
+	if !use_extra_effects:
+		return
+	if unit_effects[unit_class].has_method('switch_out'):
+		unit_effects[unit_class].switch_out(self)
+
+func switch_in():
+	if !use_extra_effects:
+		return
+	if unit_effects[unit_class].has_method('switch_in'):
+		unit_effects[unit_class].switch_in(self)
+
+func hurt():
+	if !use_extra_effects:
+		return
+	if unit_effects[unit_class].has_method('hurt'):
+		unit_effects[unit_class].hurt(self)
+
+func before_attack():
+	if !use_extra_effects:
+		return
+	if unit_effects[unit_class].has_method('before_attack'):
+		unit_effects[unit_class].before_attack(self)
+
+func after_attack():
+	if !use_extra_effects:
+		return
+	if unit_effects[unit_class].has_method('after_attack'):
+		unit_effects[unit_class].after_attack(self)
 
 func set_class(new_class):
 	unit_class = new_class
 	set_stats()
 
 func set_stats():
-	attack = unit_stats[unit_class][stats.attack]
-	defence = unit_stats[unit_class][stats.defence]
-	max_hp = unit_stats[unit_class][stats.max_hp]
-	attack_time = unit_stats[unit_class][stats.attack_time]
+	attack = enums.unit_stats[unit_class][stats.attack]
+	defence = enums.unit_stats[unit_class][stats.defence]
+	max_hp = enums.unit_stats[unit_class][stats.max_hp]
+	attack_time = enums.unit_stats[unit_class][stats.attack_time]
 	
 	temp_attack = 0
 	temp_defence = 0
@@ -88,16 +127,24 @@ func set_stats():
 	is_alive = true
 
 func perform_attack(target):
-	var damage = attack - target.defence
-	target.take_damage(damage)
+	before_attack()
+	
+	var damage = (attack + temp_attack) - (target.defence + target.temp_defence)
+	damage_dealt = target.take_damage(damage)
 	remaining_time = attack_time
+	
+	after_attack()
 
 func take_damage(damage: int):
+	hurt()
+	
 	remaining_hp -= damage
 	if remaining_hp <= 0:
 		is_alive = false
 		emit_signal('died', self)
-		#print(unit_class, ' just died :(')
+		damage += remaining_hp
+	
+	return damage
 
 func pass_time(time: float):
 	remaining_time -= time

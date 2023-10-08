@@ -1,8 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://cojtqsdvde7xx"]
+[gd_scene load_steps=7 format=3 uid="uid://cojtqsdvde7xx"]
 
 [ext_resource type="Script" path="res://scenes/unit.gd" id="1_vcvdv"]
 [ext_resource type="Resource" uid="uid://drxnmvklkp5h2" path="res://resources/classes/paladin.tres" id="2_hssit"]
-[ext_resource type="Resource" uid="uid://cgax4dk6kkr76" path="res://resources/unit_enums.tres" id="2_vukm7"]
 [ext_resource type="Resource" uid="uid://c8l2cnkw4us5" path="res://resources/classes/mage.tres" id="3_d5xyr"]
 [ext_resource type="Resource" uid="uid://cw77oq57rdrp7" path="res://resources/classes/berserk.tres" id="4_e8ch3"]
 [ext_resource type="Script" path="res://resources/classes/archer.gd" id="5_esq0m"]
@@ -10,5 +9,4 @@
 
 [node name="unit" type="Node2D"]
 script = ExtResource("1_vcvdv")
-enums = ExtResource("2_vukm7")
 unit_effects = [ExtResource("2_hssit"), ExtResource("3_d5xyr"), ExtResource("4_e8ch3"), ExtResource("5_esq0m"), ExtResource("6_yku1o")]

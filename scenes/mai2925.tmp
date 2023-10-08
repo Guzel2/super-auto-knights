@@ -10,11 +10,9 @@ script = ExtResource("1_qpuvj")
 player_0_units_holder = NodePath("player_0_units")
 player_1_units_holder = NodePath("player_1_units")
 
-[node name="player_0_units" type="Node2D" parent="gameplay" node_paths=PackedStringArray("enemy")]
+[node name="player_0_units" type="Node2D" parent="gameplay"]
 script = ExtResource("2_2ymb8")
-enemy = NodePath("../player_1_units")
 
-[node name="player_1_units" type="Node2D" parent="gameplay" node_paths=PackedStringArray("enemy")]
+[node name="player_1_units" type="Node2D" parent="gameplay"]
 script = ExtResource("2_2ymb8")
 player_number = 1
-enemy = NodePath("../player_0_units")
