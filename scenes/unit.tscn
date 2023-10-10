@@ -1,14 +1,58 @@
-[gd_scene load_steps=8 format=3 uid="uid://cojtqsdvde7xx"]
+[gd_scene load_steps=23 format=3 uid="uid://cojtqsdvde7xx"]
 
 [ext_resource type="Script" path="res://scenes/unit.gd" id="1_vcvdv"]
-[ext_resource type="Resource" uid="uid://drxnmvklkp5h2" path="res://resources/classes/paladin.tres" id="2_hssit"]
 [ext_resource type="Resource" uid="uid://cgax4dk6kkr76" path="res://resources/unit_enums.tres" id="2_vukm7"]
-[ext_resource type="Resource" uid="uid://c8l2cnkw4us5" path="res://resources/classes/mage.tres" id="3_d5xyr"]
-[ext_resource type="Resource" uid="uid://cw77oq57rdrp7" path="res://resources/classes/berserk.tres" id="4_e8ch3"]
-[ext_resource type="Resource" uid="uid://b2anemnyekwqy" path="res://resources/classes/archer.tres" id="6_xa6yu"]
-[ext_resource type="Resource" uid="uid://b011gdub83jht" path="res://resources/classes/swordsman.tres" id="7_tdugm"]
+[ext_resource type="Script" path="res://resources/classes/mage_lv1.gd" id="3_5cmxq"]
+[ext_resource type="Script" path="res://resources/classes/paladin_lv1.gd" id="3_emxlh"]
+[ext_resource type="Script" path="res://resources/classes/berserk_lv1.gd" id="5_78g8g"]
+[ext_resource type="Script" path="res://resources/classes/swordsman_lv1.gd" id="6_a3pfm"]
+[ext_resource type="Script" path="res://resources/classes/archer_lv1.gd" id="7_yrpep"]
+[ext_resource type="Script" path="res://resources/classes/mage_lv2.gd" id="8_j4t21"]
+[ext_resource type="Script" path="res://resources/classes/paladin_lv2.gd" id="9_4lect"]
+[ext_resource type="Script" path="res://resources/classes/swordsman_lv2.gd" id="10_mvjwt"]
+[ext_resource type="Script" path="res://resources/classes/berserk_lv2.gd" id="11_nur1q"]
+[ext_resource type="Script" path="res://resources/classes/archer_lv2.gd" id="12_fa0rr"]
+
+[sub_resource type="Resource" id="Resource_m65lo"]
+script = ExtResource("3_5cmxq")
+
+[sub_resource type="Resource" id="Resource_5gukx"]
+script = ExtResource("3_emxlh")
+
+[sub_resource type="Resource" id="Resource_ef0wo"]
+script = ExtResource("5_78g8g")
+
+[sub_resource type="Resource" id="Resource_hy7cq"]
+script = ExtResource("6_a3pfm")
+
+[sub_resource type="Resource" id="Resource_o6khq"]
+script = ExtResource("7_yrpep")
+
+[sub_resource type="Resource" id="Resource_soo5f"]
+script = ExtResource("8_j4t21")
+
+[sub_resource type="Resource" id="Resource_fc1mp"]
+script = ExtResource("9_4lect")
+
+[sub_resource type="Resource" id="Resource_xfdr2"]
+script = ExtResource("10_mvjwt")
+
+[sub_resource type="Resource" id="Resource_etv2m"]
+script = ExtResource("11_nur1q")
+
+[sub_resource type="Resource" id="Resource_ujjtk"]
+script = ExtResource("12_fa0rr")
 
 [node name="unit" type="Node2D"]
 script = ExtResource("1_vcvdv")
 enums = ExtResource("2_vukm7")
-unit_effects = [ExtResource("2_hssit"), ExtResource("3_d5xyr"), ExtResource("4_e8ch3"), ExtResource("6_xa6yu"), ExtResource("7_tdugm")]
+m_lv1 = SubResource("Resource_m65lo")
+p_lv1 = SubResource("Resource_5gukx")
+b_lv1 = SubResource("Resource_ef0wo")
+s_lv1 = SubResource("Resource_hy7cq")
+a_lv1 = SubResource("Resource_o6khq")
+m_lv2 = SubResource("Resource_soo5f")
+p_lv2 = SubResource("Resource_fc1mp")
+s_lv2 = SubResource("Resource_xfdr2")
+b_lv2 = SubResource("Resource_etv2m")
+a_lv2 = SubResource("Resource_ujjtk")

@@ -6,6 +6,76 @@ extends Node2D
 var battle_winner = -1
 
 func _ready() -> void:
+	randomize()
+	
+	var callable = Callable(self, 'set_winner') 
+	player_0_units_holder.connect('player_lost', callable)
+	player_1_units_holder.connect('player_lost', callable)
+	
+	var wins = []
+	var participants = []
+	
+	for x in range(2):
+		var row = []
+		for y in range(5):
+			row.append(0)
+		wins.append(row)
+		var row2 = row.duplicate()
+		participants.append(row2)
+	
+	var all_classes = []
+	
+	for x in range(5):
+		all_classes.append([x, 1])
+		var y = x - 1
+		if y < 0:
+			y += 5
+		all_classes.append([y, 0])
+		var z = x + 1
+		if z > 4:
+			z -= 5
+		all_classes.append([z, 0])
+	
+	for x in range(10000):
+		var teams = [[], []]
+		
+		for team in range(2):
+			for unit in range(3):
+				teams[team].append(all_classes.pick_random())
+		
+		player_0_units_holder.set_classes(teams[0])
+		player_1_units_holder.set_classes(teams[1])
+		
+		var turn_count = 0
+		
+		battle_winner = -1
+		while battle_winner == -1:
+			perform_one_turn()
+			turn_count += 1
+			if turn_count > 250:
+				break
+		
+		for team in teams:
+			for unit in team:
+				participants[unit[1]][unit[0]] += 1
+		
+		for unit in teams[battle_winner]:
+			wins[unit[1]][unit[0]] += 1
+	
+	
+	var percentage = []
+	for y in range(2):
+		var row = []
+		for x in range(5):
+			var value = (wins[y][x] * 100) / (participants[y][x])
+			row.append(value)
+		percentage.append(row)
+	
+	print('winner:       ', wins)
+	print('participants: ', participants)
+	print('percentage:   ', percentage)
+
+func old_battle_system():
 	var wins = {}
 	
 	var callable = Callable(self, 'set_winner') 

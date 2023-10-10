@@ -8,19 +8,21 @@ extends Node2D
 signal player_lost(player_number)
 
 func set_classes(classes: Array):
+	var temp_classes = classes.duplicate()
+	
 	var battle_pos = 0
 	
 	var callable = Callable(self, 'unit_died') 
 	for unit in units:
 		unit.is_alive = false
-		unit.set_class(classes.pop_front())
+		unit.set_classes(temp_classes.pop_front())
 		unit.battle_pos = battle_pos
 		battle_pos += 1
 	
-	for new_class in classes:
+	for new_class in temp_classes:
 		var new_unit = load("res://scenes/unit.tscn").instantiate()
 		add_child(new_unit)
-		new_unit.set_class(new_class)
+		new_unit.set_classes(new_class)
 		new_unit.connect('died', callable)
 		new_unit.unit_holder = self
 		units.append(new_unit)

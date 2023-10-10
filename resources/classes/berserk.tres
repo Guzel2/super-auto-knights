@@ -1,6 +1,0 @@
-[gd_resource type="Resource" script_class="berserk" load_steps=2 format=3 uid="uid://cw77oq57rdrp7"]
-
-[ext_resource type="Script" path="res://resources/classes/berserk.gd" id="1_r7y6h"]
-
-[resource]
-script = ExtResource("1_r7y6h")

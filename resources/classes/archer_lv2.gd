@@ -1,10 +1,5 @@
 extends Resource
-class_name archer
-
-func before_attack(unit): #split this up when changing unit classes
-	for other_unit in unit.unit_holder.units:
-		if other_unit.is_alive:
-			other_unit.temp_attack += 1
+class_name archer_lv2
 
 func after_attack(unit):
 	var target = null
