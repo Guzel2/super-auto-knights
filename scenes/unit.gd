@@ -110,23 +110,30 @@ func koed_enemy():
 			unit_class.koed_enemy(self)
 
 func set_classes(new_classes: Array):
-	unit_classes = new_classes
+	unit_classes = new_classes.duplicate()
 	set_stats()
 
+func turn_2D_unit_value_into_int(unit: Array):
+	var value = unit[0] + 5 * unit[1]
+	return value
+
 func set_stats():
-	attack = enums.unit_stats[unit_classes[0]][stats.attack]
-	defence = enums.unit_stats[unit_classes[0]][stats.defence]
-	max_hp = enums.unit_stats[unit_classes[0]][stats.max_hp]
-	attack_time = enums.unit_stats[unit_classes[0]][stats.attack_time]
+	var unit_value = turn_2D_unit_value_into_int(unit_classes[0])
+	
+	attack = enums.unit_stats[unit_value][stats.attack]
+	defence = enums.unit_stats[unit_value][stats.defence]
+	max_hp = enums.unit_stats[unit_value][stats.max_hp]
+	attack_time = enums.unit_stats[unit_value][stats.attack_time]
 	
 	for extra_class in unit_classes:
 		if extra_class == unit_classes[0]:
 			continue
+		var extra_unit_value = turn_2D_unit_value_into_int(extra_class)
 		
-		attack += enums.unit_level_up_stats[extra_class][stats.attack]
-		defence += enums.unit_level_up_stats[extra_class][stats.defence]
-		max_hp += enums.unit_level_up_stats[extra_class][stats.max_hp]
-		attack_time += enums.unit_level_up_stats[extra_class][stats.attack_time]
+		attack += enums.unit_level_up_stats[extra_unit_value][stats.attack]
+		defence += enums.unit_level_up_stats[extra_unit_value][stats.defence]
+		max_hp += enums.unit_level_up_stats[extra_unit_value][stats.max_hp]
+		attack_time += enums.unit_level_up_stats[extra_unit_value][stats.attack_time]
 	
 	temp_attack = 0
 	temp_defence = 0
@@ -140,9 +147,7 @@ func set_stats():
 func turn_unit_classes_to_ressources():
 	var new_unit_classes = []
 	for unit_class in unit_classes:
-		var class_id = unit_class
-		var level = unit_class / 5
-		new_unit_classes.append(unit_effects[level][class_id])
+		new_unit_classes.append(unit_effects[unit_class[1]][unit_class[0]])
 	unit_classes = new_unit_classes
 
 func clear_stat_changes():

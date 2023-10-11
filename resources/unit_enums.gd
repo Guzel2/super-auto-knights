@@ -2,16 +2,16 @@ extends Resource
 class_name unit_enums
 
 enum classes {
-	paladin_lv1,
 	mage_lv1,
+	paladin_lv1,
+	swordsman_lv1,
 	berserk_lv1,
 	archer_lv1,
-	swordsman_lv1,
-	paladin_lv2,
 	mage_lv2,
+	paladin_lv2,
+	swordsman_lv2,
 	berserk_lv2,
 	archer_lv2,
-	swordsman_lv2,
 }
 
 enum stats {
@@ -22,6 +22,13 @@ enum stats {
 }
 
 var unit_stats = {
+	classes.mage_lv1: 
+		{
+			stats.attack: 4,
+			stats.defence: 1,
+			stats.max_hp: 7,
+			stats.attack_time: 2.1,
+		},
 	classes.paladin_lv1: 
 		{
 			stats.attack: 6,
@@ -29,12 +36,12 @@ var unit_stats = {
 			stats.max_hp: 10,
 			stats.attack_time: 2.6,
 		},
-	classes.mage_lv1: 
+	classes.swordsman_lv1: 
 		{
 			stats.attack: 4,
 			stats.defence: 1,
-			stats.max_hp: 7,
-			stats.attack_time: 2.1,
+			stats.max_hp: 11,
+			stats.attack_time: 2.5,
 		},
 	classes.berserk_lv1: 
 		{
@@ -50,29 +57,29 @@ var unit_stats = {
 			stats.max_hp: 7,
 			stats.attack_time: 1.9,
 		},
-	classes.swordsman_lv1: 
-		{
-			stats.attack: 4,
-			stats.defence: 1,
-			stats.max_hp: 11,
-			stats.attack_time: 2.5,
-		},
 }
 
 var unit_level_up_stats = {
-	classes.paladin_lv1: 
-		{
-			stats.attack: 0,
-			stats.defence: 1,
-			stats.max_hp: 2,
-			stats.attack_time: -.1,
-		},
 	classes.mage_lv1: 
 		{
 			stats.attack: 1,
 			stats.defence: 0,
 			stats.max_hp: -2,
 			stats.attack_time: -.1,
+		},
+	classes.paladin_lv1: 
+		{
+			stats.attack: 1,
+			stats.defence: 1,
+			stats.max_hp: 2,
+			stats.attack_time: -.1,
+		},
+	classes.swordsman_lv1: 
+		{
+			stats.attack: 1,
+			stats.defence: 0,
+			stats.max_hp: 1,
+			stats.attack_time: 0,
 		},
 	classes.berserk_lv1: 
 		{
@@ -88,14 +95,14 @@ var unit_level_up_stats = {
 			stats.max_hp: -1,
 			stats.attack_time: -.2,
 		},
-	classes.swordsman_lv1: 
+	#level 2
+	classes.mage_lv2: 
 		{
 			stats.attack: 1,
-			stats.defence: 0,
+			stats.defence: 1,
 			stats.max_hp: 1,
 			stats.attack_time: 0,
 		},
-	#level 2
 	classes.paladin_lv2: 
 		{
 			stats.attack: 1,
@@ -103,12 +110,12 @@ var unit_level_up_stats = {
 			stats.max_hp: 2,
 			stats.attack_time: .1,
 		},
-	classes.mage_lv2: 
+	classes.swordsman_lv2: 
 		{
-			stats.attack: 1,
-			stats.defence: 1,
+			stats.attack: 0,
+			stats.defence: 0,
 			stats.max_hp: 1,
-			stats.attack_time: 0,
+			stats.attack_time: -.1,
 		},
 	classes.berserk_lv2: 
 		{
@@ -123,12 +130,5 @@ var unit_level_up_stats = {
 			stats.defence: 1,
 			stats.max_hp: 0,
 			stats.attack_time: 0,
-		},
-	classes.swordsman_lv2: 
-		{
-			stats.attack: 0,
-			stats.defence: 0,
-			stats.max_hp: 1,
-			stats.attack_time: -.1,
 		},
 }

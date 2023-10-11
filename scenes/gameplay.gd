@@ -13,6 +13,7 @@ func _ready() -> void:
 	player_1_units_holder.connect('player_lost', callable)
 	
 	var wins = []
+	var base_class_wins = [0, 0, 0, 0, 0]
 	var participants = []
 	
 	for x in range(2):
@@ -22,19 +23,26 @@ func _ready() -> void:
 		wins.append(row)
 		var row2 = row.duplicate()
 		participants.append(row2)
+		var row3 = row.duplicate()
 	
 	var all_classes = []
 	
 	for x in range(5):
-		all_classes.append([x, 1])
+		var unit_class = [x, 0]
+		
+		var extra_classes = []
+		extra_classes.append([x, 1])
 		var y = x - 1
 		if y < 0:
 			y += 5
-		all_classes.append([y, 0])
+		extra_classes.append([y, 0])
 		var z = x + 1
 		if z > 4:
 			z -= 5
-		all_classes.append([z, 0])
+		extra_classes.append([z, 0])
+		
+		for extra_class in extra_classes:
+			all_classes.append([unit_class, extra_class])
 	
 	for x in range(10000):
 		var teams = [[], []]
@@ -57,10 +65,13 @@ func _ready() -> void:
 		
 		for team in teams:
 			for unit in team:
-				participants[unit[1]][unit[0]] += 1
+				for unit_class in unit:
+					participants[unit_class[1]][unit_class[0]] += 1
 		
 		for unit in teams[battle_winner]:
-			wins[unit[1]][unit[0]] += 1
+			base_class_wins[unit[0][0]] += 1
+			for unit_class in unit:
+				wins[unit_class[1]][unit_class[0]] += 1
 	
 	
 	var percentage = []
@@ -71,9 +82,17 @@ func _ready() -> void:
 			row.append(value)
 		percentage.append(row)
 	
-	print('winner:       ', wins)
-	print('participants: ', participants)
-	print('percentage:   ', percentage)
+	
+	var base_class_percentage = []
+	for x in range(5):
+		var value = (base_class_wins[x] * 100) / (wins[0][x])
+		base_class_percentage.append(value)
+	
+	print('winner:           ', wins)
+	print('participants:     ', participants)
+	print('base class wins:  ', base_class_wins)
+	print('win &:            ', percentage)
+	print('base class %:     ', base_class_percentage)
 
 func old_battle_system():
 	var wins = {}
