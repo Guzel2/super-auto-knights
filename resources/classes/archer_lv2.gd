@@ -9,4 +9,4 @@ func after_attack(unit):
 			target = enemy
 	
 	if target:
-		target.take_damage(2)
+		target.take_damage(3)
