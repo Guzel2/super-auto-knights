@@ -43,6 +43,90 @@ func _ready() -> void:
 		
 		for extra_class in extra_classes:
 			all_classes.append([unit_class, extra_class])
+
+	
+	for x in range(10000):
+		var teams = [[], []]
+		
+		for team in range(2):
+			for unit in range(3):
+				teams[team].append(all_classes.pick_random())
+		
+		player_0_units_holder.set_classes(teams[0])
+		player_1_units_holder.set_classes(teams[1])
+		
+		var turn_count = 0
+		
+		battle_winner = -1
+		while battle_winner == -1:
+			perform_one_turn()
+			turn_count += 1
+			if turn_count > 250:
+				break
+		
+		for team in teams:
+			for unit in team:
+				for unit_class in unit:
+					participants[unit_class[1]][unit_class[0]] += 1
+		
+		for unit in teams[battle_winner]:
+			base_class_wins[unit[0][0]] += 1
+			for unit_class in unit:
+				wins[unit_class[1]][unit_class[0]] += 1
+	
+	
+	var percentage = []
+	for y in range(2):
+		var row = []
+		for x in range(5):
+			var value = (wins[y][x] * 100) / (participants[y][x])
+			row.append(value)
+		percentage.append(row)
+	
+	
+	var base_class_percentage = []
+	for x in range(5):
+		var value = (base_class_wins[x] * 100) / (wins[0][x])
+		base_class_percentage.append(value)
+	
+	print('winner:           ', wins)
+	print('participants:     ', participants)
+	print('base class wins:  ', base_class_wins)
+	print('win &:            ', percentage)
+	print('base class %:     ', base_class_percentage)
+
+func simolate_lv2_battles():
+	var wins = []
+	var base_class_wins = [0, 0, 0, 0, 0]
+	var participants = []
+	
+	for x in range(2):
+		var row = []
+		for y in range(5):
+			row.append(0)
+		wins.append(row)
+		var row2 = row.duplicate()
+		participants.append(row2)
+		var row3 = row.duplicate()
+	
+	var all_classes = []
+	
+	for x in range(5):
+		var unit_class = [x, 0]
+		
+		var extra_classes = []
+		extra_classes.append([x, 1])
+		var y = x - 1
+		if y < 0:
+			y += 5
+		extra_classes.append([y, 0])
+		var z = x + 1
+		if z > 4:
+			z -= 5
+		extra_classes.append([z, 0])
+		
+		for extra_class in extra_classes:
+			all_classes.append([unit_class, extra_class])
 	
 	for x in range(10000):
 		var teams = [[], []]
