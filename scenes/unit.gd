@@ -1,6 +1,7 @@
 extends Node2D
 
 @export var enums: unit_enums
+@export var text_label: Label
 
 signal died(unit)
 
@@ -41,6 +42,7 @@ var battle_pos = 0
 var unit_effects = []
 
 var unit_classes = []
+var unit_classes_ints = []
 
 var damage_dealt = 0
 var unit_holder: Node2D
@@ -111,6 +113,7 @@ func koed_enemy():
 
 func set_classes(new_classes: Array):
 	unit_classes = new_classes.duplicate()
+	unit_classes_ints = new_classes.duplicate()
 	set_stats()
 
 func turn_2D_unit_value_into_int(unit: Array):
@@ -159,6 +162,7 @@ func perform_attack(target):
 	before_attack()
 	
 	var damage = (attack + temp_attack) - (target.defence + target.temp_defence)
+	damage = 0 if damage < 0 else damage
 	damage_dealt = target.take_damage(damage)
 	if !target.is_alive:
 		koed_enemy()
@@ -172,11 +176,46 @@ func take_damage(damage: int):
 	
 	remaining_hp -= damage
 	if remaining_hp <= 0:
-		is_alive = false
-		emit_signal('died', self)
+		unit_died()
 		damage += remaining_hp
 	
 	return damage
 
+func unit_died():
+	is_alive = false
+	emit_signal('died', self)
+
 func pass_time(time: float):
 	remaining_time -= time
+
+func update_text(player_num: int):
+	if is_alive:
+		var classes = 'Classes:\n'
+		
+		for class_value in unit_classes_ints:
+			match class_value[0]:
+				0:
+					classes += 'Mage '
+				1:
+					classes += 'Paladin '
+				2:
+					classes += 'Swordsman '
+				3:
+					classes += 'Berserk '
+				4:
+					classes += 'Archer '
+			
+			classes += 'Lv. ' + str(class_value[1] + 1) + '\n'
+		
+		text_label.text = classes + '
+		HP: ' + str(remaining_hp) + ' (' + str(max_hp) + ')\n' + '
+		ATK: ' + str(attack) + ' (' + str(temp_attack) + ')\n'  + '
+		DEF: ' + str(defence) + ' (' + str(temp_defence) + ')\n'  + '
+		TIME: ' + str(remaining_time) + ' (' + str(attack_time) + ')'
+	else:
+		text_label.text = 'dead'
+	
+	if player_num == 0:
+		text_label.position = Vector2(400, 0) - Vector2(120, 0) * battle_pos
+	else:
+		text_label.position = Vector2(600, 0) + Vector2(120, 0) * battle_pos

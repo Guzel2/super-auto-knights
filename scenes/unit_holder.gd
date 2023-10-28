@@ -55,3 +55,13 @@ func change_unit(new_unit):
 		active_unit.switch_out()
 	active_unit = new_unit
 	active_unit.switch_in()
+
+func switch_unit(new_unit: int):
+	var target_unit
+	for unit in units:
+		if unit.battle_pos == new_unit:
+			active_unit.battle_pos = new_unit
+			unit.battle_pos = 0
+			change_unit(unit)
+			return true
+	return false

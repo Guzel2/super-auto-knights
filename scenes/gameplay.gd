@@ -5,7 +5,17 @@ extends Node2D
 
 var battle_winner = -1
 
-func _ready() -> void:
+var simulated_battle = false
+var next_attacking_unit = 0
+
+var last_player_input = 0
+
+func _process(delta: float) -> void:
+	if !simulated_battle:
+		simulate_battle()
+		simulated_battle = true
+
+func simulate_battle():
 	randomize()
 	
 	var callable = Callable(self, 'set_winner') 
@@ -45,7 +55,7 @@ func _ready() -> void:
 			all_classes.append([unit_class, extra_class])
 
 	
-	for x in range(10000):
+	for x in range(100):
 		var teams = [[], []]
 		
 		for team in range(2):
@@ -59,7 +69,22 @@ func _ready() -> void:
 		
 		battle_winner = -1
 		while battle_winner == -1:
-			perform_one_turn()
+			var passed_time = calc_remaining_time()
+			
+			if next_attacking_unit == 0:
+				while true:
+					update_player_text()
+					
+					await player_input
+					
+					var turn_succesful = perform_turn()
+					
+					if turn_succesful:
+						break
+			else:
+				await get_tree().create_timer(passed_time).timeout
+				perform_turn()
+			
 			turn_count += 1
 			if turn_count > 250:
 				break
@@ -142,7 +167,8 @@ func simolate_lv2_battles():
 		
 		battle_winner = -1
 		while battle_winner == -1:
-			perform_one_turn()
+			calc_remaining_time()
+			perform_turn()
 			turn_count += 1
 			if turn_count > 250:
 				break
@@ -198,7 +224,8 @@ func old_battle_system():
 							
 							battle_winner = -1
 							while battle_winner == -1:
-								perform_one_turn()
+								calc_remaining_time()
+								perform_turn()
 								turn_count += 1
 								if turn_count > 250:
 									break
@@ -251,20 +278,57 @@ func my_cool_sort_function(a, b, wins):
 func set_winner(loser):
 	battle_winner = 1 - loser
 
-func perform_one_turn():
-	var next_attacking_unit = 0
+func calc_remaining_time():
+	next_attacking_unit = 0
 	var remaining_time = player_0_units_holder.active_unit.remaining_time
 	if player_1_units_holder.active_unit.remaining_time < remaining_time:
 		next_attacking_unit = 1
 		remaining_time = player_1_units_holder.active_unit.remaining_time
 	
-	#wait the remaining time
-	
 	player_0_units_holder.active_unit.pass_time(remaining_time)
 	player_1_units_holder.active_unit.pass_time(remaining_time)
 	
+	return remaining_time
+
+func perform_turn():
+	var turn_successful = true
+	
 	if next_attacking_unit == 0:
-		player_0_units_holder.active_unit.perform_attack(player_1_units_holder.active_unit)
+		match last_player_input:
+			0:
+				player_0_units_holder.active_unit.perform_attack(player_1_units_holder.active_unit)
+			1:
+				turn_successful = player_0_units_holder.switch_unit(1)
+			2:
+				turn_successful = player_0_units_holder.switch_unit(2)
 	else:
 		player_1_units_holder.active_unit.perform_attack(player_0_units_holder.active_unit)
 	
+	if !turn_successful:
+		return turn_successful
+	
+	update_player_text()
+	
+	return turn_successful
+
+func update_player_text():
+	for unit in player_0_units_holder.units:
+		unit.update_text(0)
+	
+	for unit in player_1_units_holder.units:
+		unit.update_text(1)
+
+func _input(event: InputEvent) -> void:
+	
+	if event.is_action_pressed("1"):
+		player_pressed(1)
+	if event.is_action_pressed("2"):
+		player_pressed(2)
+	if event.is_action_pressed("3"):
+		player_pressed(3)
+
+signal player_input
+
+func player_pressed(button: int):
+	last_player_input = 3 - button
+	emit_signal('player_input')

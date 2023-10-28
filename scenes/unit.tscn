@@ -43,9 +43,10 @@ script = ExtResource("11_nur1q")
 [sub_resource type="Resource" id="Resource_ujjtk"]
 script = ExtResource("12_fa0rr")
 
-[node name="unit" type="Node2D"]
+[node name="unit" type="Node2D" node_paths=PackedStringArray("text_label")]
 script = ExtResource("1_vcvdv")
 enums = ExtResource("2_vukm7")
+text_label = NodePath("Label")
 m_lv1 = SubResource("Resource_m65lo")
 p_lv1 = SubResource("Resource_5gukx")
 b_lv1 = SubResource("Resource_ef0wo")
@@ -56,3 +57,7 @@ p_lv2 = SubResource("Resource_fc1mp")
 s_lv2 = SubResource("Resource_xfdr2")
 b_lv2 = SubResource("Resource_etv2m")
 a_lv2 = SubResource("Resource_ujjtk")
+
+[node name="Label" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 44.0
